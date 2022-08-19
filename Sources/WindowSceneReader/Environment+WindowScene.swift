@@ -30,7 +30,8 @@ extension EnvironmentValues {
 }
 
 extension View {
-    /// Sets the window scene for this presentation. If no window scene is provided, the current windows scene will be determined
+    /// Sets the window scene for this presentation. If no window scene is provided,
+    /// the current windows scene will be determined
     ///
     /// - Parameter windowScene: The `UIWindowScene` to use for this presentation
     @ViewBuilder public func setWindowScene(_ windowScene: UIWindowScene? = nil) -> some View {

@@ -8,6 +8,10 @@
 import SwiftUI
 import UIKit
 
+/// A container view that reads the current window scene
+///
+/// This view reads the current window scene and makes the window scene
+/// available in the `Envionment`
 public struct WindowSceneReader<Content>: View where Content: View {
     @ViewBuilder var content: (UIWindowScene) -> Content
     
@@ -31,39 +35,34 @@ public struct WindowSceneReader<Content>: View where Content: View {
 
 #if DEBUG
 struct ContentView: View {
-    @State private var isPresented = true
-    
     var body: some View {
         NavigationView {
-            WindowSceneReader { _ in
-                List {
-                    NavigationLink {
-                        DetailView()
-                    } label: {
-                        Text("Detail")
-                    }
-                    
-                    Button {
-                        isPresented = true
-                    } label: {
-                        Text("Show")
-                    }
+            List {
+                NavigationLink {
+                    DetailView()
+                } label: {
+                    Text("Detail")
                 }
-                .navigationBarTitle("Custom Alert")
+                
+                Button {
+                } label: {
+                    Text("Some Button")
+                }
             }
+            .navigationBarTitle("Demo")
         }
     }
 }
 
 struct DetailView: View {
-    @State private var isPresented = false
-    
     var body: some View {
-        List {
-            Button {
-                isPresented = true
-            } label: {
-                Text("Show")
+        WindowSceneReader { _ in
+            List {                
+                Button {
+                    
+                } label: {
+                    Text("Some Button")
+                }
             }
         }
         .navigationBarTitle("Detail View")
