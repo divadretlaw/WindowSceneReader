@@ -34,12 +34,30 @@ extension View {
     /// the current windows scene will be determined
     ///
     /// - Parameter windowScene: The `UIWindowScene` to use for this presentation
+    @available(*, deprecated, renamed: "windowScene")
     @ViewBuilder public func setWindowScene(_ windowScene: UIWindowScene? = nil) -> some View {
+        self.windowScene(windowScene)
+    }
+    
+    /// Sets the window scene for this presentation. If no window scene is provided,
+    /// the current windows scene will be determined using `View.captureWindowScene`
+    ///
+    /// - Parameter windowScene: The `UIWindowScene` to use for this presentation
+    ///
+    /// - Returns: A view where the given or captured windows scene is available for child views
+    @ViewBuilder public func windowScene(_ windowScene: UIWindowScene? = nil) -> some View {
         if let windowScene = windowScene {
             environment(\.windowScene, windowScene)
         } else {
             modifier(CaptureWindowScene())
         }
+    }
+    
+    /// Capture the current window scene of the view and make it available for child views
+    ///
+    /// - Returns: A view where the current windows scene is available for child views
+    public func captureWindowScene() -> some View {
+        modifier(CaptureWindowScene())
     }
 }
 
