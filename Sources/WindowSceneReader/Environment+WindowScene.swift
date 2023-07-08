@@ -5,6 +5,7 @@
 //  Created by David Walter on 12.08.22.
 //
 
+#if os(iOS) || os(tvOS)
 import SwiftUI
 
 struct WindowSceneKey: EnvironmentKey {
@@ -20,25 +21,12 @@ extension EnvironmentValues {
     /// for this presentation. If no `UIWindowScene` was set then it will default
     /// to the first connected `UIWindowScene`
     public var windowScene: UIWindowScene? {
-        get {
-            self[WindowSceneKey.self]
-        }
-        set {
-            self[WindowSceneKey.self] = newValue
-        }
+        get { self[WindowSceneKey.self] }
+        set { self[WindowSceneKey.self] = newValue }
     }
 }
 
 extension View {
-    /// Sets the window scene for this presentation. If no window scene is provided,
-    /// the current windows scene will be determined
-    ///
-    /// - Parameter windowScene: The `UIWindowScene` to use for this presentation
-    @available(*, deprecated, renamed: "windowScene")
-    @ViewBuilder public func setWindowScene(_ windowScene: UIWindowScene? = nil) -> some View {
-        self.windowScene(windowScene)
-    }
-    
     /// Sets the window scene for this presentation. If no window scene is provided,
     /// the current windows scene will be determined using `View.captureWindowScene`
     ///
@@ -55,20 +43,27 @@ extension View {
     
     /// Capture the current window scene of the view and make it available for child views
     ///
+    /// - Parameter action: The action to perform when the `UIWindowScene` is found.
+    ///
     /// - Returns: A view where the current windows scene is available for child views
-    public func captureWindowScene() -> some View {
-        modifier(CaptureWindowScene())
+    public func captureWindowScene(perform action: ((UIWindowScene) -> Void)? = nil) -> some View {
+        modifier(CaptureWindowScene(action: action))
     }
 }
 
 struct CaptureWindowScene: ViewModifier {
     @State var windowScene: UIWindowScene?
+    var action: ((UIWindowScene) -> Void)?
     
     func body(content: Content) -> some View {
         content
             .readWindow {
-                self.windowScene = $0.windowScene
+                windowScene = $0.windowScene
+                if let windowScene = $0.windowScene {
+                    action?(windowScene)
+                }
             }
             .environment(\.windowScene, windowScene)
     }
 }
+#endif

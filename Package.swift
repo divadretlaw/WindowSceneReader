@@ -5,14 +5,21 @@ import PackageDescription
 
 let package = Package(
     name: "WindowSceneReader",
-    platforms: [.iOS(.v13)],
+    platforms: [
+        .iOS(.v13),
+        .macOS(.v10_15),
+        .tvOS(.v13)
+    ],
     products: [
         .library(
             name: "WindowSceneReader",
             targets: ["WindowSceneReader"]
-        ),
+        )
+    ],
+    dependencies: [
+        .package(url: "https://github.com/divadretlaw/WindowReader", from: "1.0.2")
     ],
     targets: [
-        .target(name: "WindowSceneReader")
+        .target(name: "WindowSceneReader", dependencies: ["WindowReader"])
     ]
 )

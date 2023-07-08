@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import WindowReader
+#if os(iOS) || os(tvOS)
 import UIKit
 
 /// A container view that reads the current window scene
@@ -14,16 +16,16 @@ import UIKit
 /// available in the `Envionment`
 public struct WindowSceneReader<Content>: View where Content: View {
     @ViewBuilder var content: (UIWindowScene) -> Content
-    
     @State private var windowScene: UIWindowScene?
     
     public var body: some View {
         if let windowScene = windowScene {
             content(windowScene)
+                .environment(\.windowScene, windowScene)
         } else {
             Color.clear
                 .readWindow {
-                    self.windowScene = $0.windowScene
+                    windowScene = $0.windowScene
                 }
         }
     }
@@ -60,9 +62,8 @@ struct ContentView: View {
 struct DetailView: View {
     var body: some View {
         WindowSceneReader { _ in
-            List {                
+            List {
                 Button {
-                    
                 } label: {
                     Text("Some Button")
                 }
@@ -77,4 +78,5 @@ struct Preview: PreviewProvider {
         ContentView()
     }
 }
+#endif
 #endif

@@ -1,6 +1,6 @@
 # WindowSceneReader
 
-Access the current `UIWindowScene` from SwiftUI
+Access the current `UIWindowScene` and `UIWindow` from SwiftUI
 
 ## Usage
 

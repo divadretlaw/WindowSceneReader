@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "windowreader",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/divadretlaw/WindowReader",
+      "state" : {
+        "revision" : "26fdb98bcc5f564a0d40bc6600aa718520e27925",
+        "version" : "1.0.2"
+      }
+    }
+  ],
+  "version" : 2
+}
