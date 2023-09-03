@@ -19,14 +19,11 @@ public struct WindowSceneReader<Content>: View where Content: View {
     @State private var windowScene: UIWindowScene?
     
     public var body: some View {
-        if let windowScene = windowScene {
-            content(windowScene)
-                .environment(\.windowScene, windowScene)
-        } else {
-            Color.clear
-                .readWindow {
-                    windowScene = $0.windowScene
-                }
+        WindowReader { window in
+            if let windowScene = window.windowScene {
+                content(windowScene)
+                    .environment(\.windowScene, windowScene)
+            }
         }
     }
     
@@ -38,45 +35,43 @@ public struct WindowSceneReader<Content>: View where Content: View {
     }
 }
 
-#if DEBUG
-struct ContentView: View {
-    var body: some View {
-        NavigationView {
-            List {
-                NavigationLink {
-                    DetailView()
-                } label: {
-                    Text("Detail")
-                }
-                
-                Button {
-                } label: {
-                    Text("Some Button")
-                }
-            }
-            .navigationBarTitle("Demo")
-        }
-    }
-}
-
-struct DetailView: View {
-    var body: some View {
-        WindowSceneReader { _ in
-            List {
-                Button {
-                } label: {
-                    Text("Some Button")
-                }
-            }
-        }
-        .navigationBarTitle("Detail View")
-    }
-}
-
 struct Preview: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
+    
+    struct ContentView: View {
+        var body: some View {
+            NavigationView {
+                List {
+                    NavigationLink {
+                        DetailView()
+                    } label: {
+                        Text("Detail")
+                    }
+                    
+                    Button {
+                    } label: {
+                        Text("Some Button")
+                    }
+                }
+                .navigationBarTitle("Demo")
+            }
+        }
+    }
+    
+    struct DetailView: View {
+        var body: some View {
+            WindowSceneReader { _ in
+                List {
+                    Button {
+                    } label: {
+                        Text("Some Button")
+                    }
+                }
+            }
+            .navigationBarTitle("Detail View")
+        }
+    }
 }
-#endif
 #endif

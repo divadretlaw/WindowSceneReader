@@ -8,7 +8,7 @@
 #if os(iOS) || os(tvOS)
 import SwiftUI
 
-struct WindowSceneKey: EnvironmentKey {
+private struct WindowSceneKey: EnvironmentKey {
     static var defaultValue: UIWindowScene? {
         UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first
     }
@@ -28,7 +28,7 @@ extension EnvironmentValues {
 
 extension View {
     /// Sets the window scene for this presentation. If no window scene is provided,
-    /// the current windows scene will be determined using `View.captureWindowScene`
+    /// the current windows scene will be determined using ``captureWindowScene(perform:)``
     ///
     /// - Parameter windowScene: The `UIWindowScene` to use for this presentation
     ///
@@ -45,16 +45,17 @@ extension View {
     ///
     /// - Parameter action: The action to perform when the `UIWindowScene` is found.
     ///
-    /// - Returns: A view where the current windows scene is available for child views
+    /// - Returns: A view where the current window scene is available for child views
     public func captureWindowScene(perform action: ((UIWindowScene) -> Void)? = nil) -> some View {
         modifier(CaptureWindowScene(action: action))
     }
 }
 
-struct CaptureWindowScene: ViewModifier {
-    @State var windowScene: UIWindowScene?
+private struct CaptureWindowScene: ViewModifier {
     var action: ((UIWindowScene) -> Void)?
     
+    @State private var windowScene: UIWindowScene?
+
     func body(content: Content) -> some View {
         content
             .readWindow {
