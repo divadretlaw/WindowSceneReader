@@ -4,7 +4,7 @@
 
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fdivadretlaw%2FWindowSceneReader%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/divadretlaw/WindowSceneReader)
 
-Access the current `UIWindowScene` and `UIWindow` from SwiftUI
+Access the current `UIWindowScene` and `UIWindow` from any SwiftUI view.
 
 ## Usage
 
@@ -24,6 +24,8 @@ struct MyApp: App {
     }
 }
 ```
+
+alternatively, just add `windowScene()` if you only need the window scene on child views.
 
 ```swift
 @main
