@@ -7,7 +7,7 @@
 
 import SwiftUI
 import WindowReader
-#if os(iOS) || os(tvOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 import UIKit
 
 /// A container view that reads the current window scene
