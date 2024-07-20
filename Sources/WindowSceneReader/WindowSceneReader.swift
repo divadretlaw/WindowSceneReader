@@ -15,7 +15,8 @@ import UIKit
 /// This view reads the current window scene and makes the window scene
 /// available in the `Envionment`
 public struct WindowSceneReader<Content>: View where Content: View {
-    @ViewBuilder var content: (UIWindowScene) -> Content
+    public var content: (UIWindowScene) -> Content
+    
     @State private var windowScene: UIWindowScene?
     
     public var body: some View {
@@ -30,7 +31,7 @@ public struct WindowSceneReader<Content>: View where Content: View {
     /// Creates an instance that can reads the current window scene
     ///
     /// - Parameter content: The reader's content where the window scene is accessible
-    public init(@ViewBuilder content: @escaping (UIWindowScene) -> Content) {
+    @inlinable public init(@ViewBuilder content: @escaping (UIWindowScene) -> Content) {
         self.content = content
     }
 }
@@ -61,6 +62,8 @@ struct Preview: PreviewProvider {
     }
     
     struct DetailView: View {
+        @Environment(\.windowScene) private var windowScene
+        
         var body: some View {
             WindowSceneReader { _ in
                 List {

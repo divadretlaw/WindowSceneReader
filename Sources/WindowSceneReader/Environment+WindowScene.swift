@@ -10,7 +10,11 @@ import SwiftUI
 
 private struct WindowSceneKey: EnvironmentKey {
     static var defaultValue: UIWindowScene? {
-        UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first
+        MainActor.runSync {
+            UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .first
+        }
     }
 }
 
