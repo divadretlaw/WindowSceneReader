@@ -36,45 +36,18 @@ public struct WindowSceneReader<Content>: View where Content: View {
     }
 }
 
-struct Preview: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-    
-    struct ContentView: View {
-        var body: some View {
-            NavigationView {
-                List {
-                    NavigationLink {
-                        DetailView()
-                    } label: {
-                        Text("Detail")
-                    }
-                    
-                    Button {
-                    } label: {
-                        Text("Some Button")
-                    }
-                }
-                .navigationBarTitle("Demo")
+#Preview {
+    WindowSceneReader { windowScene in
+        VStack {
+            VStack(alignment: .leading) {
+                Text("WindowScene")
+                    .foregroundColor(.primary)
+                Text(windowScene.debugDescription)
+                    .foregroundColor(.secondary)
             }
+            .multilineTextAlignment(.leading)
         }
-    }
-    
-    struct DetailView: View {
-        @Environment(\.windowScene) private var windowScene
-        
-        var body: some View {
-            WindowSceneReader { _ in
-                List {
-                    Button {
-                    } label: {
-                        Text("Some Button")
-                    }
-                }
-            }
-            .navigationBarTitle("Detail View")
-        }
+        .padding()
     }
 }
 #endif
