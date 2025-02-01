@@ -17,8 +17,6 @@ import UIKit
 public struct WindowSceneReader<Content>: View where Content: View {
     public var content: (UIWindowScene) -> Content
     
-    @State private var windowScene: UIWindowScene?
-    
     public var body: some View {
         WindowReader { window in
             if let windowScene = window.windowScene {
@@ -31,7 +29,7 @@ public struct WindowSceneReader<Content>: View where Content: View {
     /// Creates an instance that can reads the current window scene
     ///
     /// - Parameter content: The reader's content where the window scene is accessible
-    @inlinable public init(@ViewBuilder content: @escaping (UIWindowScene) -> Content) {
+    public init(@ViewBuilder content: @escaping (UIWindowScene) -> Content) {
         self.content = content
     }
 }
